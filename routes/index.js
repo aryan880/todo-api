@@ -1,51 +1,19 @@
-var express = require("express");
-var router = express.Router();
-var sql = require("../models/db");
+const todos = require("../controller/todos.controller");
 
-/* GET home page. */
-router.get("/", function (req, res, next) {
-  res.render("index", { title: "Express" });
-});
+var router = require("express").Router();
 
-router.get("/todos", function (req, res, next) {
-  sql.query("SELECT * FROM todos", function (error, results, fields) {
-    if (error) throw error;
-    res.send(results);
-    console.log(results);
-  });
-});
+router.post("/", todos.create);
 
-router.get("/todos/:id", function (req, res, next) {
-  sql.query(
-    `SELECT * FROM todos WHERE id = ${req.params.id}`,
-    function (error, results, fields) {
-      res.send(results);
-      if (error) throw error;
-      console.log(results);
-    }
-  );
-});
+router.get("/", todos.findAll);
 
-router.put("/todos/:id", function (req, res, next) {
-  sql.query(
-    `UPDATE todos SET id = '1234',isDone = false, value='abcdefg', sortOrder='123' WHERE  id = ${req.params.id}`,
-    function (error, results, fields) {
-      res.send(results);
-      if (error) throw error;
-      console.log(results);
-    } 
-  );
-});
+router.get("/completed", todos.findAllCompleted);
 
-router.delete("/todos/:id", function (req, res, next) {
-  sql.query(
-    `DELETE FROM todos WHERE id = ${req.params.id}`,
-    function (error, results, fields) {
-      res.send(results);
-      if (error) throw error;
-      console.log(results);
-    }
-  );
-});
+router.get("/:id", todos.findOne);
+
+router.put("/:id", todos.update);
+
+router.delete("/:id", todos.delete);
+
+router.delete("/", todos.deleteAll);
 
 module.exports = router;

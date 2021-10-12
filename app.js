@@ -18,6 +18,12 @@ app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, "public")));
 
+const db = require("./models");
+
+db.sequelize.sync({ force: true }).then(() => {
+  console.log("Drop and re-sync db.");
+});
+
 app.use("/", indexRouter);
 
 // catch 404 and forward to error handler
