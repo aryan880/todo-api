@@ -1,18 +1,18 @@
 module.exports = (sequelize, Sequelize) => {
-  const Todo = sequelize.define("todo", {
+  const Todo = sequelize.define('todo', {
     id: {
       type: Sequelize.STRING,
-      primaryKey: true,
+      primaryKey: true
     },
     value: {
-      type: Sequelize.STRING,
+      type: Sequelize.STRING
     },
     isDone: {
-      type: Sequelize.BOOLEAN,
+      type: Sequelize.BOOLEAN
     },
     sortOrder: {
-      type: Sequelize.INTEGER,
-    },
+      type: Sequelize.INTEGER
+    }
   });
 
   return Todo;

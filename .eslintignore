@@ -1,0 +1,11 @@
+node_modules
+coverage
+datasets
+build-scripts
+docker
+datasets
+locales
+shell
+temp
+templates
+zones-geo-json

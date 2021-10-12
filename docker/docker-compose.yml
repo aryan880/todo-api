@@ -1,0 +1,20 @@
+version: '3'
+services:
+  mysql:
+    image: mysql:5.7
+    hostname: mysql
+    networks:
+      - mysql-net
+    environment:
+      MYSQL_ROOT_PASSWORD: pendrive
+    ports:
+      - '3306:3306'
+    volumes:
+      - aryan-mysql-data:/var/lib/mysql
+  
+networks:
+  mysql-net:
+  
+volumes:
+  aryan-mysql-data:
+  

@@ -1,6 +1,6 @@
-const dbConfig = require("../config/db.config.js");
+const Sequelize = require('sequelize');
+const dbConfig = require('../config/db.config');
 
-const Sequelize = require("sequelize");
 const sequelize = new Sequelize(dbConfig.DB, dbConfig.USER, dbConfig.PASSWORD, {
   host: dbConfig.HOST,
   dialect: dbConfig.dialect,
@@ -19,6 +19,6 @@ const db = {};
 db.Sequelize = Sequelize;
 db.sequelize = sequelize;
 
-db.todos = require("./todos.model.js")(sequelize, Sequelize);
+db.todos = require('./todos.model')(sequelize, Sequelize);
 
 module.exports = db;

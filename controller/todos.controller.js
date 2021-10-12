@@ -1,12 +1,11 @@
-const db = require("../models");
+const db = require('../models');
 const Todos = db.todos;
-const Op = db.Sequelize.Op;
 
 // Create and Save a new Tutorial
 exports.create = (req, res) => {
   if (!req.body.value) {
     res.status(400).send({
-      message: "Content can not be empty!",
+      message: 'Content can not be empty!'
     });
     return;
   }
@@ -16,7 +15,7 @@ exports.create = (req, res) => {
     id: req.body.id,
     value: req.body.value,
     isDone: req.body.isDone,
-    sortOrder: req.body.sortOrder,
+    sortOrder: req.body.sortOrder
   };
 
   // Save Tutorial in the database
@@ -26,8 +25,7 @@ exports.create = (req, res) => {
     })
     .catch((err) => {
       res.status(500).send({
-        message:
-          err.message || "Some error occurred while creating the Tutorial.",
+        message: err.message || 'Some error occurred while creating the Tutorial.'
       });
     });
 };
@@ -40,15 +38,14 @@ exports.findAll = (req, res) => {
     })
     .catch((err) => {
       res.status(500).send({
-        message:
-          err.message || "Some error occurred while retrieving tutorials.",
+        message: err.message || 'Some error occurred while retrieving tutorials.'
       });
     });
 };
 
 // Find a single Tutorial with an id
 exports.findOne = (req, res) => {
-  const id = req.params.id;
+  const { id } = req.params;
 
   Todos.findByPk(id)
     .then((data) => {
@@ -56,63 +53,63 @@ exports.findOne = (req, res) => {
         res.send(data);
       } else {
         res.status(404).send({
-          message: `Cannot find todo with id=${id}.`,
+          message: `Cannot find todo with id=${id}.`
         });
       }
     })
     .catch((err) => {
       res.status(500).send({
-        message: "Error retrieving todo with id=" + id,
+        message: `Error retrieving todo with id=${id}`
       });
     });
 };
 
 // Update a Tutorial by the id in the request
 exports.update = (req, res) => {
-  const id = req.params.id;
+  const { id } = req.params;
 
   Todos.update(req.body, {
-    where: { id: id },
+    where: { id }
   })
     .then((num) => {
-      if (num == 1) {
+      if (num === 1) {
         res.send({
-          message: "Todos was updated successfully.",
+          message: 'Todos was updated successfully.'
         });
       } else {
         res.send({
-          message: `Cannot update Tutorial with id=${id}. Maybe Tutorial was not found or req.body is empty!`,
+          message: `Cannot update Tutorial with id=${id}. Maybe Tutorial was not found or req.body is empty!`
         });
       }
     })
     .catch((err) => {
       res.status(500).send({
-        message: "Error updating Tutorial with id=" + id,
+        message: `Error updating Tutorial with id=${id}`
       });
     });
 };
 
 // Delete a Tutorial with the specified id in the request
 exports.delete = (req, res) => {
-  const id = req.params.id;
+  const { id } = req.params;
 
   Todos.destroy({
-    where: { id: id },
+    where: { id }
   })
     .then((num) => {
-      if (num == 1) {
+      if (num === 1) {
         res.send({
-          message: "Todo was deleted successfully!",
+          message: 'Todo was deleted successfully!'
         });
       } else {
         res.send({
-          message: `Cannot delete Todo with id=${id}. Maybe Tutorial was not found!`,
+          message: `Cannot delete Todo with id=${id}. Maybe Tutorial was not found!`
         });
       }
     })
     .catch((err) => {
       res.status(500).send({
-        message: "Could not delete Todo with id=" + id,
+        message: `Could not delete Todo with id=${id}`
       });
     });
 };
@@ -121,14 +118,14 @@ exports.delete = (req, res) => {
 exports.deleteAll = (req, res) => {
   Todos.destroy({
     where: {},
-    truncate: false,
+    truncate: false
   })
     .then((nums) => {
       res.send({ message: `${nums} Todo were deleted successfully!` });
     })
     .catch((err) => {
       res.status(500).send({
-        message: err.message || "Some error occurred while removing all todos.",
+        message: err.message || 'Some error occurred while removing all todos.'
       });
     });
 };
@@ -141,8 +138,7 @@ exports.findAllCompleted = (req, res) => {
     })
     .catch((err) => {
       res.status(500).send({
-        message:
-          err.message || "Some error occurred while retrieving tutorials.",
+        message: err.message || 'Some error occurred while retrieving tutorials.'
       });
     });
 };
