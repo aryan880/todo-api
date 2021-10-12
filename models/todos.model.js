@@ -1,8 +1,9 @@
 module.exports = (sequelize, Sequelize) => {
   const Todo = sequelize.define('todo', {
     id: {
-      type: Sequelize.STRING,
-      primaryKey: true
+      type: Sequelize.UUID,
+      primaryKey: true,
+      defaultValue: Sequelize.UUIDV4
     },
     value: {
       type: Sequelize.STRING

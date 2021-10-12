@@ -12,7 +12,6 @@ exports.create = (req, res) => {
 
   // Create a Tutorial
   const todo = {
-    id: req.body.id,
     value: req.body.value,
     isDone: req.body.isDone,
     sortOrder: req.body.sortOrder
@@ -24,6 +23,7 @@ exports.create = (req, res) => {
       res.send(data);
     })
     .catch((err) => {
+      console.log(err);
       res.status(500).send({
         message: err.message || 'Some error occurred while creating the Tutorial.'
       });
