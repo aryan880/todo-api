@@ -1,23 +1,19 @@
+const { body, validationResult } = require('express-validator');
 const db = require('../models');
 const Todos = db.todos;
 
 // Create and Save a new Tutorial
 exports.create = (req, res) => {
-  if (!req.body.value) {
-    res.status(400).send({
-      message: 'Content can not be empty!'
-    });
-    return;
+  const errors = validationResult(req);
+  if (!errors.isEmpty()) {
+    return res.status(400).json({ errors: errors.array() });
   }
-
-  // Create a Tutorial
   const todo = {
     value: req.body.value,
     isDone: req.body.isDone,
     sortOrder: req.body.sortOrder
   };
 
-  // Save Tutorial in the database
   Todos.create(todo)
     .then((data) => {
       res.send(data);
@@ -47,7 +43,7 @@ exports.findAll = (req, res) => {
 exports.findOne = (req, res) => {
   const { id } = req.params;
 
-  Todos.findByPk(id)
+  Todos.findOne({ where: { id } })
     .then((data) => {
       if (data) {
         res.send(data);
@@ -59,20 +55,24 @@ exports.findOne = (req, res) => {
     })
     .catch((err) => {
       res.status(500).send({
-        message: `Error retrieving todo with id=${id}`
+        message: `Error retrieving todo with id=${id} ,${err}`
       });
     });
 };
 
 // Update a Tutorial by the id in the request
 exports.update = (req, res) => {
+  const errors = validationResult(req);
+  if (!errors.isEmpty()) {
+    return res.status(400).json({ errors: errors.array() });
+  }
   const { id } = req.params;
 
   Todos.update(req.body, {
     where: { id }
   })
     .then((num) => {
-      if (num === 1) {
+      if (num[0] === 1) {
         res.send({
           message: 'Todos was updated successfully.'
         });
@@ -84,7 +84,7 @@ exports.update = (req, res) => {
     })
     .catch((err) => {
       res.status(500).send({
-        message: `Error updating Tutorial with id=${id}`
+        message: `Error updating Tutorial with id=${id},${err}`
       });
     });
 };
@@ -97,6 +97,7 @@ exports.delete = (req, res) => {
     where: { id }
   })
     .then((num) => {
+      console.log(num);
       if (num === 1) {
         res.send({
           message: 'Todo was deleted successfully!'
@@ -121,7 +122,7 @@ exports.deleteAll = (req, res) => {
     truncate: false
   })
     .then((nums) => {
-      res.send({ message: `${nums} Todo were deleted successfully!` });
+      res.send({ message: `All todos were deleted successfully!` });
     })
     .catch((err) => {
       res.status(500).send({

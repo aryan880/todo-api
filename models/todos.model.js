@@ -2,7 +2,7 @@ module.exports = (sequelize, Sequelize) => {
   const Todo = sequelize.define('todo', {
     id: {
       type: Sequelize.UUID,
-      primaryKey: true,
+      primaryKey: 1,
       defaultValue: Sequelize.UUIDV4
     },
     value: {

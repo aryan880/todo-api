@@ -2,7 +2,8 @@ const createError = require('http-errors');
 const express = require('express');
 const logger = require('morgan');
 const http = require('http');
-
+const swaggerUi = require('swagger-ui-express');
+const swaggerDocument = require('./swagger.json');
 const indexRouter = require('./routes/index');
 
 const app = express();
@@ -12,6 +13,8 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 
 const start = () => {
+  app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerDocument));
+
   app.use('/', indexRouter);
 
   // catch 404 and forward to error handler
