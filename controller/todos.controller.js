@@ -28,7 +28,7 @@ exports.create = (req, res) => {
 
 // Retrieve all Tutorials from the database.
 exports.findAll = (req, res) => {
-  Todos.findAll()
+  Todos.findAll({ order: [['sortOrder', 'ASC']] })
     .then((data) => {
       res.send(data);
     })
@@ -118,13 +118,14 @@ exports.updateCheckBox = (req, res) => {
 };
 
 exports.updateSortOrder = (req, res) => {
+  console.log(req.body);
+
   const errors = validationResult(req);
   console.log('UpdateSortOrder', errors);
   if (!errors.isEmpty()) {
     return res.status(400).json({ errors: errors.array() });
   }
   const { id } = req.params;
-
   Todos.update(req.body, {
     where: { id }
   })

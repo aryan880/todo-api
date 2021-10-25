@@ -1,6 +1,7 @@
 module.exports = (sequelize, Sequelize) => {
   const Todo = sequelize.define('todo', {
     id: {
+      primaryKey: 1,
       type: Sequelize.UUID,
       defaultValue: Sequelize.UUIDV4
     },
@@ -11,7 +12,6 @@ module.exports = (sequelize, Sequelize) => {
       type: Sequelize.BOOLEAN
     },
     sortOrder: {
-      primaryKey: 1,
       type: Sequelize.INTEGER
     }
   });
