@@ -60,7 +60,6 @@ exports.findOne = (req, res) => {
     });
 };
 
-// Update a Tutorial by the id in the request
 exports.update = (req, res) => {
   const errors = validationResult(req);
   if (!errors.isEmpty()) {
@@ -89,6 +88,64 @@ exports.update = (req, res) => {
     });
 };
 
+exports.updateCheckBox = (req, res) => {
+  const errors = validationResult(req);
+  if (!errors.isEmpty()) {
+    return res.status(400).json({ errors: errors.array() });
+  }
+  const { id } = req.params;
+
+  Todos.update(req.body, {
+    where: { id }
+  })
+    .then((num) => {
+      console.log(num);
+      if (num[0] === 1) {
+        res.send({
+          message: 'Todo CheckBox was updated successfully.'
+        });
+      } else {
+        res.send({
+          message: `Cannot update Checkbox with id=${id}. Maybe todo was not found or req.body is empty!`
+        });
+      }
+    })
+    .catch((err) => {
+      res.status(500).send({
+        message: `Error updating Checkbox with id=${id},${err}`
+      });
+    });
+};
+
+exports.updateSortOrder = (req, res) => {
+  const errors = validationResult(req);
+  console.log('UpdateSortOrder', errors);
+  if (!errors.isEmpty()) {
+    return res.status(400).json({ errors: errors.array() });
+  }
+  const { id } = req.params;
+
+  Todos.update(req.body, {
+    where: { id }
+  })
+    .then((num) => {
+      console.log(num);
+      if (num[0] === 1) {
+        res.send({
+          message: 'Todo SortOrder was updated successfully.'
+        });
+      } else {
+        res.send({
+          message: `Cannot update SortOrder with id=${id}. Maybe todo was not found or req.body is empty!`
+        });
+      }
+    })
+    .catch((err) => {
+      res.status(500).send({
+        message: `Error updating SortOrder with id=${id},${err}`
+      });
+    });
+};
 // Delete a Tutorial with the specified id in the request
 exports.delete = (req, res) => {
   const { id } = req.params;

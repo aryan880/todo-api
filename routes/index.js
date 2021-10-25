@@ -11,11 +11,11 @@ router.get('/completed', todos.findAllCompleted);
 
 router.get('/:id', todos.findOne);
 
-router.put(
-  '/:id',
-  [body('value').notEmpty(), body('sortOrder').notEmpty(), body('isDone').notEmpty()],
-  todos.update
-);
+router.patch('/updateValue/:id', [body('value').notEmpty()], todos.update);
+
+router.patch('/updateCheckBox/:id', [body('isDone').notEmpty()], todos.updateCheckBox);
+
+router.patch('/updateSortOrder/:id', [body('sortOrder').notEmpty()], todos.updateSortOrder);
 
 router.delete('/:id', todos.delete);
 

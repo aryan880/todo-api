@@ -1,6 +1,7 @@
 const createError = require('http-errors');
 const express = require('express');
 const logger = require('morgan');
+const cors = require('cors');
 const http = require('http');
 const swaggerUi = require('swagger-ui-express');
 const swaggerDocument = require('./swagger.json');
@@ -11,6 +12,7 @@ const app = express();
 app.use(logger('dev'));
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
+app.use(cors());
 
 const start = () => {
   app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerDocument));
@@ -35,8 +37,8 @@ const start = () => {
 
   const server = http.createServer(app);
 
-  server.listen(3000, () => {
-    console.log(`Magic happens on port 3000`);
+  server.listen(9000, () => {
+    console.log(`Magic happens on port 9000`);
   });
 };
 

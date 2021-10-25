@@ -45,14 +45,26 @@ describe('Todo List Operations', () => {
     });
   });
 
-  describe('Update a todo', () => {
-    it('Should be able to update a particular todo', async () => {
+  describe('Update todo value', () => {
+    it('Should be able to update value of a particular todo', async () => {
       const res = await request
-        .put(`/${id}`)
+        .patch(`/updatedValue/${id}`)
         .send({
-          sortOrder: 2,
-          isDone: true,
-          value: 'Hello'
+          value: 'hi'
+        })
+        .expect(200);
+      const { message } = res.body;
+      console.log(message);
+      expect(message).to.be.equal('Todo CheckBox was updated successfully.');
+    });
+  });
+
+  describe('Update todo checkbox', () => {
+    it('Should be able to update checkbox of a particular todo', async () => {
+      const res = await request
+        .patch(`/updatedCheckBox/${id}`)
+        .send({
+          isDone: true
         })
         .expect(200);
       const { message } = res.body;
